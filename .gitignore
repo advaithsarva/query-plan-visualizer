@@ -9,3 +9,6 @@ dist/
 .env
 
 *.log
+
+CLAUDE.md
+OBSERVE.md
