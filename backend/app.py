@@ -119,4 +119,9 @@ def health():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    # debug=True serves the Werkzeug debugger, an interactive Python console
+    # over HTTP. Bound to localhost it is not reachable from the network, but
+    # it is still a console shipped by default; opt in with FLASK_DEBUG=1.
+    app.run(host=os.environ.get("HOST", "127.0.0.1"),
+            port=int(os.environ.get("PORT", 5000)),
+            debug=os.environ.get("FLASK_DEBUG") == "1")
