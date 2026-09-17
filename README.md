@@ -38,7 +38,7 @@ Requires Docker, Python 3.11+, and Node 18+.
 ```bash
 # 1. Postgres, seeded with 5k customers / 200k orders (no index on orders.customer_id
 #    on purpose, so there's something real for the tool to catch)
-docker compose up -d
+docker compose up -d --wait   # --wait blocks until the 200k rows are seeded
 
 # 2. Backend
 pip install -r requirements.txt

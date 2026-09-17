@@ -7,3 +7,13 @@ services:
       - "5432:5432"
     volumes:
       - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql
+    # `up -d` returns as soon as the container starts, but the seed inserts
+    # 200k rows and the entrypoint runs it against a temporary server first.
+    # Counting the seeded rows is what makes `up -d --wait` mean "ready";
+    # pg_isready answers during the init phase too, so it would not.
+    healthcheck:
+      test: ["CMD-SHELL", "psql -U postgres -tAc 'SELECT count(*) = 200000 FROM orders' | grep -q t"]
+      interval: 3s
+      timeout: 5s
+      retries: 40
+      start_period: 5s
